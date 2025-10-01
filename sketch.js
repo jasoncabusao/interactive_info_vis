@@ -1,12 +1,12 @@
 //custom variables for y-coordinate of sun & horizon
 let shapeHeight;
 
-let designWidth = 1000;
+let designWidth = 400;
 let designHeight= 400;
 let horizon ;
 function setup() {
   createCanvas(designWidth,designHeight);
-  horizon =height/2;
+  horizon =height;
 }
 
 function draw() {
@@ -28,7 +28,7 @@ function draw() {
   //sun
   fill("white");
 
-  rect(width/4, shapeHeight, width/2);
+  rect(width, shapeHeight, width/2);
   textSize(20);
   fill("black");
   text('Hi! My name is Jason Cabusao! :p', currentWidth/2, shapeHeight/2);

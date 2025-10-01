@@ -1,8 +1,8 @@
 //custom variables for y-coordinate of sun & horizon
 let shapeHeight;
 
-let designWidth = 1000;
-let designHeight= 1000;
+let designWidth;
+let designHeight;
 let horizon ;
 function setup() {
   createCanvas(designWidth,designHeight);

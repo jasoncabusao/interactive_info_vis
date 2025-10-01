@@ -20,19 +20,19 @@ function draw() {
   //with if-else statement
   if (shapeHeight < horizon) {
     background("lightblue"); // blue if above horizon
-    
+
   } else {
     background("grey"); // grey if below horizon
   }
 
   //sun
   fill("white");
-  
+
   rect(width/4, shapeHeight, width/2);
   textSize(20);
   fill("black");
-  text('Hi! My name is...', currentWidth/2, shapeHeight/2);
-  
+  text('Hi! My name is Jason Cabusao! :p', currentWidth/2, shapeHeight/2);
+
 
 
   // draw line for horizon

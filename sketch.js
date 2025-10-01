@@ -1,8 +1,8 @@
 //custom variables for y-coordinate of sun & horizon
 let shapeHeight;
 
-let designWidth = 400;
-let designHeight= 400;
+let designWidth = 1000;
+let designHeight= 1000;
 let horizon ;
 function setup() {
   createCanvas(designWidth,designHeight);
@@ -19,7 +19,7 @@ function draw() {
 
   //with if-else statement
   if (shapeHeight < horizon) {
-    background("lightblue"); // blue if above horizon
+    background("lightgreen"); // blue if above horizon
 
   } else {
     background("grey"); // grey if below horizon
@@ -51,6 +51,6 @@ function draw() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  horizon = height / 2; // recalc horizon after resize
+  horizon = height; // recalc horizon after resize
 }
 

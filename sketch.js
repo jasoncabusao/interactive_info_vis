@@ -1,7 +1,7 @@
 //custom variables for y-coordinate of sun & horizon
 let shapeHeight;
 
-let designWidth = 400;
+let designWidth = 1000;
 let designHeight= 400;
 let horizon ;
 function setup() {

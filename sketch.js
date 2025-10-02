@@ -1,55 +1,42 @@
-//custom variables for y-coordinate of sun & horizon
 let shapeHeight;
+let horizon;
+let boxSize = 100; // size of the moving box
 
-let designWidth = 400;
-let designHeight= 400;
-let horizon ;
 function setup() {
-  createCanvas(windowWidth,windowHeight);
-  horizon =height/2;
+  createCanvas(windowWidth, windowHeight);
+  horizon = height / 2;
 }
 
 function draw() {
+  shapeHeight = mouseY;
 
-  //shape follows y-coordinate of mouse
-  shapeHeight = mouseY;
-  currentWidth = mouseX;
-
-  //light blue background if the shape is above horizon
-
-  //with if-else statement
+  // background color depends on shape position
   if (shapeHeight < horizon) {
-    background("green"); // blue if above horizon
-
+    background("green");
   } else {
-    background("grey"); // grey if below horizon
+    background("grey");
   }
 
-  //sun
-  fill("white");
+  // box follows the mouse
+  fill("white");
+  rect(mouseX - boxSize/2, mouseY - boxSize/2, boxSize, boxSize);
 
-  rect(width/4, shapeHeight, width/2);
-  textSize(20);
+  // text inside box
+  textSize(16);
   fill("black");
-  text('Hi! My name is Jason Cabusao! :p', currentWidth/2, shapeHeight/2);
+  textAlign(CENTER, CENTER);
+  text('Hi! My name is Jason Cabusao! :p', mouseX, mouseY);
 
+  // horizon line
+  stroke('lavender');
+  line(0, horizon, width, horizon);
 
-
-  // draw line for horizon
-  stroke('lavender');
-  line(0,horizon,width,horizon);
-
-  //grass
-
-  fill("lavender");
-
-  rect(0, horizon, width, height);
-
+  // grass rectangle (bottom half)
+  fill("lavender");
+  rect(0, horizon, width, height - horizon);
 }
-
-
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  horizon = height / 2; // recalc horizon after resize
+  horizon = height / 2;
 }

@@ -7,6 +7,8 @@ registerSketch('sk2', function (p) {
   let currentFrame = 0;
   let frameInterval = 100;
   let lastFrameSwitch = 0;
+  let hasMovedOnce = false;
+
 
   p.preload = function () {
     for (let i = 0; i < 6; i++) {
@@ -66,10 +68,24 @@ registerSketch('sk2', function (p) {
     if (img) {
       p.image(img, p.width / 2 - 150, p.height / 2 - 150, 300, 300);
     }
+
+    let message;
+    if (!hasMovedOnce) {
+      message = "Move cursor to simulate you running.";
+    } else {
+      message = isMoving ? "That's it! Keep running!" : "HEY! Why’d you stop?";
+    }
+
+    p.fill('#333');
+    p.textSize(20);
+    p.textStyle(p.BOLD);
+    p.textAlign(p.CENTER, p.CENTER);
+    p.text(message, p.width / 2, p.height / 2 + 100 + 80);
   };
 
   p.mouseMoved = function () {
     lastMoveTime = p.millis();
+    hasMovedOnce = true;
   };
 
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };

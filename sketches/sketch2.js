@@ -4,6 +4,8 @@ registerSketch('sk2', function (p) {
   let currentFrame = 0;
   let frameInterval = 100;
   let lastFrameSwitch = 0;
+  let elapsedTime = 0;
+  let lastFrameTime = 0;
   let lastMoveTime = 0;
 
   p.preload = function () {
@@ -15,13 +17,34 @@ registerSketch('sk2', function (p) {
   p.setup = function () {
     p.createCanvas(p.windowWidth, p.windowHeight);
     p.textFont('monospace');
+    lastFrameTime = p.millis();
   };
 
   p.draw = function () {
     p.background('#39760E');
 
     let now = p.millis();
+    let deltaTime = now - lastFrameTime;
+    lastFrameTime = now;
+
     let isMoving = now - lastMoveTime < 100;
+    if (isMoving) {
+      elapsedTime += deltaTime;
+    }
+
+    let pad = (num, size) => num.toString().padStart(size, '0');
+    let ms = Math.floor(elapsedTime % 1000);
+    let sec = Math.floor((elapsedTime / 1000) % 60);
+    let min = Math.floor((elapsedTime / 60000) % 60);
+    let hr = Math.floor((elapsedTime / 3600000) % 24);
+    let days = Math.floor(elapsedTime / 86400000);
+
+    let formatted = `${pad(days, 2)}d ${pad(hr, 2)}h ${pad(min, 2)}m ${pad(sec, 2)}s ${pad(ms, 3)}ms`;
+
+    p.fill("#183800");
+    p.textSize(48);
+    p.textAlign(p.CENTER, p.CENTER);
+    p.text(`${formatted}`, p.width / 2, 100);
 
     //movement detection
     p.fill('#fff');

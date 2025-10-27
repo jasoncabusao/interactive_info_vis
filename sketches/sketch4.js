@@ -42,6 +42,15 @@ registerSketch('sk4', function (p) {
     p.textAlign(p.CENTER, p.CENTER);
     p.text(fullText, p.width / 2, 40);
 
+    // reset feet after a mile
+    if (feet.length >= totalSteps) {
+      totalStepsTaken += feet.length;
+      feet = [];
+      startTime = p.millis();
+      lastStepTime = p.millis();
+    }
+
+    // add foot for every step
     if (now - lastStepTime >= stepInterval) {
       feet.push({
         x: p.random(p.width),

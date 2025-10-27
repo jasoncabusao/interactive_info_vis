@@ -3,7 +3,6 @@ registerSketch('sk3', function (p) {
   let walkButton, jogButton, sprintButton;
   let mode = 'none';
 
-
   p.setup = function () {
     p.createCanvas(p.windowWidth, p.windowHeight);
     p.textFont('monospace');
@@ -53,6 +52,15 @@ registerSketch('sk3', function (p) {
 
   p.draw = function () {
     p.background('#111');
+
+    p.noFill();
+    p.strokeWeight(30);
+    p.stroke(50);
+    p.ellipse(p.width / 2, p.height / 2, 300, 300);
+
+    p.stroke('#FF3B3B');
+    p.arc(p.width / 2, p.height / 2, 300, 300, 0, redFill);
+
   };
 
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };

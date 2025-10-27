@@ -6,6 +6,10 @@ registerSketch('sk3', function (p) {
   let redFill = 0;
   const maxFill = 360;
 
+  let overheated = false;
+  let cooldownStart = 0;
+  let cooldownDuration = 60000;
+
   p.setup = function () {
     p.createCanvas(p.windowWidth, p.windowHeight);
     p.textFont('monospace');
@@ -55,12 +59,31 @@ registerSketch('sk3', function (p) {
 
   p.draw = function () {
     p.background('#111');
+    let now = p.millis();
 
+    if (overheated) {
+      let timeLeft = cooldownDuration - (now - cooldownStart);
+      if (timeLeft <= 0) {
+        overheated = false;
+        redFill = 0;
+        mode = 'none';
+      } else {
+        p.fill('#FF3B3B');
+        p.noStroke();
+        p.textAlign(p.CENTER, p.CENTER);
+        p.textSize(32);
+        p.text(`Stop and take a breath: ${Math.ceil(timeLeft / 1000)}s`, p.width / 2, p.height / 2);
+        return;
+      }
+    }
+
+    // Draw grey ring
     p.noFill();
     p.strokeWeight(30);
     p.stroke(50);
     p.ellipse(p.width / 2, p.height / 2, 300, 300);
 
+    // Draw red filling
     p.stroke('#FF3B3B');
     p.arc(p.width / 2, p.height / 2, 300, 300, 0, redFill);
 
@@ -75,6 +98,18 @@ registerSketch('sk3', function (p) {
 
     redFill = p.constrain(redFill, 0, maxFill);
 
+    // Displays activity mode
+    p.fill('#888');
+    p.noStroke();
+    p.textAlign(p.CENTER, p.CENTER);
+    p.textSize(16);
+    p.text(`Mode: ${mode}`, p.width / 2, p.height - 60);
+
+    // overheated cooldown
+    if (redFill >= maxFill && !overheated) {
+      overheated = true;
+      cooldownStart = now;
+    }
   };
 
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };

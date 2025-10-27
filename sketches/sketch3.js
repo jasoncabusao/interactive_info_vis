@@ -3,6 +3,9 @@ registerSketch('sk3', function (p) {
   let walkButton, jogButton, sprintButton;
   let mode = 'none';
 
+  let redFill = 0;
+  const maxFill = 360;
+
   p.setup = function () {
     p.createCanvas(p.windowWidth, p.windowHeight);
     p.textFont('monospace');
@@ -60,6 +63,17 @@ registerSketch('sk3', function (p) {
 
     p.stroke('#FF3B3B');
     p.arc(p.width / 2, p.height / 2, 300, 300, 0, redFill);
+
+    // Update redFill based on mode
+    if (mode === 'sprint') {
+      redFill += 0.75;
+    } else if (mode === 'jog') {
+      redFill = Math.max(0, redFill + .25);
+    } else if (mode === 'walk') {
+      redFill = Math.max(0, redFill - .1);
+    }
+
+    redFill = p.constrain(redFill, 0, maxFill);
 
   };
 

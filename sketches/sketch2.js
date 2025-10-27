@@ -1,16 +1,16 @@
 // Instance-mode sketch for tab 2
 registerSketch('sk2', function (p) {
+  let elapsedTime = 0;
+  let lastMoveTime = 0;
+  let lastFrameTime = 0;
   let bunnyFrames = [];
   let currentFrame = 0;
   let frameInterval = 100;
   let lastFrameSwitch = 0;
-  let elapsedTime = 0;
-  let lastFrameTime = 0;
-  let lastMoveTime = 0;
 
   p.preload = function () {
     for (let i = 0; i < 6; i++) {
-      bunnyFrames[i] = p.loadImage(`../runningbunny/bunny${i + 1}.jpg`);
+      bunnyFrames[i] = p.loadImage(`runningbunny/bunny${i + 1}.jpg`);
     }
   };
 
@@ -30,6 +30,10 @@ registerSketch('sk2', function (p) {
     let isMoving = now - lastMoveTime < 100;
     if (isMoving) {
       elapsedTime += deltaTime;
+      if (now - lastFrameSwitch > frameInterval) {
+        currentFrame = (currentFrame + 1) % bunnyFrames.length;
+        lastFrameSwitch = now;
+      }
     }
 
     let pad = (num, size) => num.toString().padStart(size, '0');

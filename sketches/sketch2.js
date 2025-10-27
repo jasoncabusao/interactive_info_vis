@@ -57,12 +57,6 @@ registerSketch('sk2', function (p) {
     p.textSize(20);
     p.textAlign(p.CENTER, p.CENTER);
 
-
-    if (now - lastFrameSwitch > frameInterval) {
-      currentFrame = (currentFrame + 1) % bunnyFrames.length;
-      lastFrameSwitch = now;
-    }
-
     let img = bunnyFrames[currentFrame];
     if (img) {
       p.image(img, p.width / 2 - 150, p.height / 2 - 150, 300, 300);

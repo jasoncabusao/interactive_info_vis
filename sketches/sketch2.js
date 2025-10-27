@@ -56,7 +56,6 @@ registerSketch('sk2', function (p) {
     p.fill('#fff');
     p.textSize(20);
     p.textAlign(p.CENTER, p.CENTER);
-    p.text(isMoving ? "You're running!" : "Move your mouse to run!", p.width / 2, p.height / 2);
 
 
     if (now - lastFrameSwitch > frameInterval) {

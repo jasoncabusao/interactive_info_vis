@@ -7,7 +7,7 @@ registerSketch('sk2', function (p) {
 
   p.preload = function () {
     for (let i = 0; i < 6; i++) {
-      bunnyFrames[i] = p.loadImage(`../runningbunny/bunny${i + 1}.jpg`);
+      bunnyFrames[i] = p.loadImage(`runningbunny/bunny${i + 1}.jpg`);
     }
   };
 

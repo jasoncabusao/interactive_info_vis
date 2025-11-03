@@ -44,7 +44,7 @@ registerSketch('sk5', function (p) {
   }
 
   p.draw = function () {
-    p.background(255);
+    p.background('#FAF8F3');
 
     // Convert data coordinates to canvas positions
     let x1 = p.map(0.255, 0.1, 0.35, xStart, xStart + plotWidth);
@@ -53,13 +53,13 @@ registerSketch('sk5', function (p) {
     let y2 = p.map(242, 240, 285, p.height - bottomMargin, topMargin);
 
     // Title and subtitle
-    let title = "When Poverty Rises, Literacy Falls — and the Gap Is Regional";
+    let title = "States with Higher Poverty Tend to Have Lower Literacy — and the Gap Is Regional";
     let subtitle = "Average adult literacy scores decline as the share of residents living below 150% of the poverty line increases. States in the Southeast and Southwest are the most affected, while New England and the Upper Midwest maintain higher literacy levels even at lower poverty rates.";
 
     // Title styling
     p.textAlign(p.CENTER, p.TOP);
     p.textFont('Arial');
-    p.textSize(20);
+    p.textSize(32);
     p.textStyle(p.BOLD);
     p.fill(0);
     p.text(title, p.width / 2, 30);
@@ -68,43 +68,13 @@ registerSketch('sk5', function (p) {
     p.textStyle(p.SEMI_BOLD);
     p.textSize(13);
     p.textWrap(p.WORD);
-    p.text(subtitle, p.width / 4.5, 60, p.width / 2); // wrapped to fit nicely
+    p.text(subtitle, p.width / 4.5, 80, p.width / 2); // wrapped to fit nicely
 
 
-
-
-    // DASHED BOX
-    // Dashed line settings
-    let dashLength = 4;
-    let gapLength = 9;
     p.stroke(0);
     p.strokeWeight(2);
-    // Top edge
-    for (let x = x1; x < x2; x += dashLength + gapLength) {
-      p.line(x, y1, x + dashLength, y1);
-    }
-    // Bottom edge
-    for (let x = x1; x < x2; x += dashLength + gapLength) {
-      p.line(x, y2, x + dashLength, y2);
-    }
-    // Ensure y1 is the top and y2 is the bottom
     let yTop = Math.min(y1, y2);
     let yBottom = Math.max(y1, y2);
-    // Left edge
-    for (let y = yTop; y < yBottom; y += dashLength + gapLength) {
-      p.line(x1, y, x1, y + dashLength);
-    }
-    // Right edge
-    for (let y = yTop; y < yBottom; y += dashLength + gapLength) {
-      p.line(x2, y, x2, y + dashLength);
-    }
-
-
-
-    // Light red shading behind the dashed box
-    p.noStroke();
-    p.fill(255, 100, 100, 50); // light red with transparency
-    p.rect(x1, yTop, x2 - x1, yBottom - yTop);
 
 
     // AXES
@@ -224,14 +194,26 @@ registerSketch('sk5', function (p) {
     p.text(annotation, annotationX, annotationY, 150); // 250px wide text box
 
 
+    p.textAlign(p.LEFT, p.TOP);
+    p.textSize(10);
+    p.fill(0);
+    p.textWrap(p.WORD);
+    p.text(
+      "Source: PIAAC (2012–2017) and American Community Survey. State-level estimates based on small area estimation models.\nData: 12,330 U.S. adults ages 16–74\nMethodology: nces.ed.gov/surveys/piaac",
+      p.width - 300,
+      80,
+      300
+    );
+
+
     // Legend
     let i = 0;
     for (let region in regionColors) {
       p.fill(regionColors[region]);
-      p.rect(p.width - 200, 200 + i * 20, 10, 10);
+      p.rect(p.width - 250, 320 + i * 20, 10, 10);
       p.fill(0);
       p.textAlign(p.LEFT);
-      p.text(region, p.width - 180, 205 + i * 20);
+      p.text(region, p.width - 230, 325 + i * 20);
       i++;
     }
 
@@ -240,6 +222,11 @@ registerSketch('sk5', function (p) {
       p.noStroke();
       p.ellipse(pt.x, pt.y, 12, 12);
     }
+
+    // Light red shading behind the dashed box
+    p.noStroke();
+    p.fill(255, 100, 100, 50);
+    p.rect(x1, yTop, x2 - x1, yBottom - yTop);
 
     // Tooltip on hover
     for (let pt of points) {
@@ -256,7 +243,7 @@ registerSketch('sk5', function (p) {
         p.textSize(12);
         p.textAlign(p.LEFT, p.TOP);
         p.text(
-          `State: ${pt.state}\nRegion: ${pt.region}\nLiteracy: ${pt.literacy}\nPoverty: ${(pt.poverty * 100).toFixed(1)}%`,          p.mouseX + 14,
+          `State: ${pt.state}\nRegion: ${pt.region}\nAvg. Literacy: ${pt.literacy}\nPoverty: ${(pt.poverty * 100).toFixed(1)}%`,          p.mouseX + 14,
           p.mouseY + 14
         );
       }

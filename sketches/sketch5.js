@@ -1,5 +1,15 @@
 registerSketch('sk5', function (p) {
   let table;
+  let regionColors = {
+    "New England": "#c282dfff",
+    "Mideast": "#7ece5bff",
+    "Southeast": "#ac8636ff",
+    "Great Lakes": "#68aff1ff",
+    "Plains": "#dba800ff",
+    "Southwest": "#e380b5ff",
+    "Rocky Mountains": "#f0f060ff",
+    "Far West": "#f17769ff"
+  };
 
   p.preload = function () {
     table = p.loadTable('StateLiteracy.csv', 'csv', 'header');
@@ -36,12 +46,11 @@ registerSketch('sk5', function (p) {
       let value = parseFloat(row.get('Lit_A'));
       let region = row.get('Region');
 
-      let x = p.map(poverty, 0.1, 0.35, 60, p.width - 50);
-      let y = p.map(value, 240, 285, p.height - 50, 50);
+      let x = p.map(poverty, 0.1, 0.35, leftMargin+50, p.width - 400);
+      let y = p.map(value, 240, 285, p.height + 50, 50);
 
-      p.fill('black');
-      p.noStroke();
-      p.ellipse(x, y, 8, 8);
+      p.fill(regionColors[region] || 'black');      p.noStroke();
+      p.ellipse(x, y, 12, 12);
       p.textAlign(p.CENTER);
     }
 

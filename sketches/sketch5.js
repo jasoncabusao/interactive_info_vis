@@ -153,27 +153,50 @@ registerSketch('sk5', function (p) {
     p.text("Average Literacy Score", leftMargin - 40, (p.height - bottomMargin + topMargin) / 2);
 
 
-    // Convert New Hampshire data point to canvas coordinates
+    // New Hampshire data point
     let nhX = p.map(0.14, 0.1, 0.35, xStart, xStart + plotWidth) - 150;
     let nhY = p.map(278.9, 240, 285, p.height - bottomMargin, topMargin) + 20;
-
-    // Annotation text
     let nhAnnotation = "New Hampshire shows one of the highest average literacy scores in the nation, and one of the lowest poverty rates.";
-
-    // Position annotation slightly above and to the right
     let nhTextX = nhX + 20;
     let nhTextY = nhY - 40;
-
     p.fill(0);
     p.noStroke();
     p.textAlign(p.LEFT, p.TOP);
     p.textWrap(p.WORD);
     p.text(nhAnnotation, nhTextX, nhTextY, 200);
 
+    // Mississippi data point
+    let msX = p.map(0.33, 0.1, 0.35, xStart, xStart + plotWidth);
+    let msY = p.map(251.7, 240, 285, p.height - bottomMargin, topMargin);
+    let msAnnotation = "Mississippi has one of the highest poverty rates and among the lowest literacy scores.";
+    let msTextX = msX - 220; // position to the left
+    let msTextY = msY - 40;
+
+    p.fill(0);
+    p.noStroke();
+    p.textAlign(p.LEFT, p.TOP);
+    p.textWrap(p.WORD);
+    p.text(msAnnotation, msTextX + 300, msTextY + 100, 200);
+    let msRadius = 10;
+    let msDotCount = 15;
+    // Dotted outline around Mississippi point
+    p.stroke(0);
+    p.strokeWeight(2);
+    for (let i = 0; i < msDotCount; i++) {
+      let angle = p.TWO_PI * i / msDotCount;
+      let x = msX + msRadius * p.cos(angle) + 10;
+      let y = msY + msRadius * p.sin(angle) + 93;
+      p.point(x, y);
+    }
+    // line from dot to annotation
+    p.stroke(0);
+    p.strokeWeight(1);
+    p.line(msX, msY + 93, msTextX + 300, msTextY + 110);
+
+
     // Dotted outline around New Hampshire point
     let radius = 10; // radius of the dotted circle
     let dotCount = 15; // number of dots around the circle
-
     p.stroke(0);
     p.strokeWeight(2);
     for (let i = 0; i < dotCount; i++) {

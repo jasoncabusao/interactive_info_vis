@@ -1,5 +1,6 @@
 registerSketch('sk5', function (p) {
   let table;
+  let points = [];
   let regionColors = {
     "New England": "#c282dfff",
     "Mideast": "#7ece5bff",
@@ -10,6 +11,12 @@ registerSketch('sk5', function (p) {
     "Rocky Mountains": "#f0f060ff",
     "Far West": "#f17769ff"
   };
+  let leftMargin = 200;
+  let rightMargin = 200;
+  let topMargin = 120;
+  let bottomMargin = 100;
+  let xStart = leftMargin + 50;
+  let plotWidth = 850;
 
   p.preload = function () {
     table = p.loadTable('StateLiteracy.csv', 'csv', 'header');
@@ -21,14 +28,23 @@ registerSketch('sk5', function (p) {
     p.textFont('Sans-serif');
     p.textSize(10);
 
-    // Axes with smaller margins
-    let leftMargin = 200;
-    let rightMargin = 200;
-    let topMargin = 120;
-    let bottomMargin = 100;
+    // Plot points
+    for (let i = 0; i < table.getRowCount(); i++) {
+      let row = table.getRow(i);
+      let state = row.get('State');
+      let poverty = parseFloat(row.get('Poverty_150'));
+      let value = parseFloat(row.get('Lit_A'));
+      let region = row.get('Region');
 
-    let xStart = leftMargin + 50;
-    let plotWidth = 850;
+      let x = p.map(poverty, 0.1, 0.35, xStart, xStart + plotWidth);
+      let y = p.map(value, 240, 285, p.height + 50, 50);
+
+      points.push({ x, y, state, literacy: value, poverty, region });
+    }
+  }
+
+  p.draw = function () {
+    p.background(255);
 
     // Convert data coordinates to canvas positions
     let x1 = p.map(0.255, 0.1, 0.35, xStart, xStart + plotWidth);
@@ -49,11 +65,15 @@ registerSketch('sk5', function (p) {
     p.text(title, p.width / 2, 30);
 
     // Subtitle styling
-    p.textStyle(p.NORMAL);
-    p.textSize(12);
+    p.textStyle(p.SEMI_BOLD);
+    p.textSize(13);
     p.textWrap(p.WORD);
     p.text(subtitle, p.width / 4.5, 60, p.width / 2); // wrapped to fit nicely
 
+
+
+
+    // DASHED BOX
     // Dashed line settings
     let dashLength = 4;
     let gapLength = 9;
@@ -80,11 +100,22 @@ registerSketch('sk5', function (p) {
     }
 
 
+
+    // Light red shading behind the dashed box
+    p.noStroke();
+    p.fill(255, 100, 100, 50); // light red with transparency
+    p.rect(x1, yTop, x2 - x1, yBottom - yTop);
+
+
+    // AXES
     p.stroke(0);
     p.line(leftMargin, p.height - bottomMargin, p.width - rightMargin, p.height - bottomMargin); // x-axis
     p.line(leftMargin, p.height - bottomMargin, leftMargin, topMargin); // y-axis
 
     // Axis labels
+    p.textStyle(p.NORMAL);
+    p.textSize(12);
+    p.fill(0);
     p.noStroke();
     p.textAlign(p.CENTER);
     p.text("Population (%) below 150% of the poverty level", (p.width - leftMargin - rightMargin) / 2 + leftMargin, p.height - bottomMargin + 30);
@@ -97,7 +128,7 @@ registerSketch('sk5', function (p) {
     let nhY = p.map(278.9, 240, 285, p.height - bottomMargin, topMargin) + 20;
 
     // Annotation text
-    let nhAnnotation = "New Hampshire shows one of the highest literacy scores in the nation, and one of the lowest poverty rates.";
+    let nhAnnotation = "New Hampshire shows one of the highest average literacy scores in the nation (279), and one of the lowest poverty rates, with only 14% of their poppulation falling below 150% of the povery line.";
 
     // Position annotation slightly above and to the right
     let nhTextX = nhX + 20;
@@ -126,29 +157,12 @@ registerSketch('sk5', function (p) {
     p.strokeWeight(1);
     p.line(nhX + 90, nhY - 43, nhX + 135, nhY - 60); // from dot to annotation
 
-
-    // Plot points
-    for (let i = 0; i < table.getRowCount(); i++) {
-      let row = table.getRow(i);
-      let state = row.get('State');
-      let poverty = parseFloat(row.get('Poverty_150'));
-      let value = parseFloat(row.get('Lit_A'));
-      let region = row.get('Region');
-
-      let x = p.map(poverty, 0.1, 0.35, xStart, xStart + plotWidth);
-      let y = p.map(value, 240, 285, p.height + 50, 50);
-
-      p.fill(regionColors[region] || 'black');      p.noStroke();
-      p.ellipse(x, y, 12, 12);
-      p.textAlign(p.CENTER);
-    }
-
     // Annotation text
     let annotation = "Southern states cluster together, showing consistently higher poverty and lower literacy levels compared to other regions.";
 
     // Position near the right side of the box
-    let annotationX = x2 - 150; // slightly inside from the right edge
-    let annotationY = yTop + 40; // slightly below the top edge
+    let annotationX = x2 - 160; // slightly inside from the right edge
+    let annotationY = yTop + 50; // slightly below the top edge
 
     p.fill(0);
     p.noStroke();
@@ -167,10 +181,35 @@ registerSketch('sk5', function (p) {
       p.text(region, p.width - 180, 205 + i * 20);
       i++;
     }
-  }
 
-  p.draw = function () {
+    for (let pt of points) {
+      p.fill(regionColors[pt.region] || 'black');
+      p.noStroke();
+      p.ellipse(pt.x, pt.y, 12, 12);
+    }
+
+    // Tooltip on hover
+    for (let pt of points) {
+      let d = p.dist(p.mouseX, p.mouseY, pt.x, pt.y);
+      if (d < 8) {
+        // Tooltip background
+        p.fill(255);
+        p.stroke(0);
+        p.rect(p.mouseX + 10, p.mouseY + 10, 220, 60);
+
+        // Tooltip text
+        p.noStroke();
+        p.fill(0);
+        p.textSize(12);
+        p.textAlign(p.LEFT, p.TOP);
+        p.text(
+          `State: ${pt.state}\nRegion: ${pt.region}\nLiteracy: ${pt.literacy}\nPoverty: ${(pt.poverty * 100).toFixed(1)}%`,          p.mouseX + 14,
+          p.mouseY + 14
+        );
+      }
+    }
   };
+
 
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
 });

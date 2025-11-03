@@ -36,6 +36,24 @@ registerSketch('sk5', function (p) {
     let y1 = p.map(267, 240, 285, p.height - bottomMargin, topMargin);
     let y2 = p.map(242, 240, 285, p.height - bottomMargin, topMargin);
 
+    // Title and subtitle
+    let title = "When Poverty Rises, Literacy Falls — and the Gap Is Regional";
+    let subtitle = "Average adult literacy scores decline as the share of residents living below 150% of the poverty line increases. States in the Southeast and Southwest are the most affected, while New England and the Upper Midwest maintain higher literacy levels even at lower poverty rates.";
+
+    // Title styling
+    p.textAlign(p.CENTER, p.TOP);
+    p.textFont('Arial');
+    p.textSize(20);
+    p.textStyle(p.BOLD);
+    p.fill(0);
+    p.text(title, p.width / 2, 30);
+
+    // Subtitle styling
+    p.textStyle(p.NORMAL);
+    p.textSize(12);
+    p.textWrap(p.WORD);
+    p.text(subtitle, p.width / 4.5, 60, p.width / 2); // wrapped to fit nicely
+
     // Dashed line settings
     let dashLength = 4;
     let gapLength = 9;
@@ -113,10 +131,10 @@ registerSketch('sk5', function (p) {
     let i = 0;
     for (let region in regionColors) {
       p.fill(regionColors[region]);
-      p.rect(p.width - 200, 60 + i * 20, 10, 10);
+      p.rect(p.width - 200, 200 + i * 20, 10, 10);
       p.fill(0);
       p.textAlign(p.LEFT);
-      p.text(region, p.width - 180, 70 + i * 20);
+      p.text(region, p.width - 180, 205 + i * 20);
       i++;
     }
   }

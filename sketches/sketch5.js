@@ -54,6 +54,17 @@ registerSketch('sk5', function (p) {
       p.textAlign(p.CENTER);
     }
 
+    // Legend
+    let i = 0;
+    for (let region in regionColors) {
+      p.fill(regionColors[region]);
+      p.rect(p.width - 200, 60 + i * 20, 10, 10);
+      p.fill(0);
+      p.textAlign(p.LEFT);
+      p.text(region, p.width - 180, 70 + i * 20);
+      i++;
+    }
+
   };
 
   p.draw = function () {

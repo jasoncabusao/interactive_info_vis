@@ -108,9 +108,39 @@ registerSketch('sk5', function (p) {
 
 
     // AXES
+    // x-axis
     p.stroke(0);
-    p.line(leftMargin, p.height - bottomMargin, p.width - rightMargin, p.height - bottomMargin); // x-axis
-    p.line(leftMargin, p.height - bottomMargin, leftMargin, topMargin); // y-axis
+    p.line(leftMargin, p.height - bottomMargin, p.width - rightMargin, p.height - bottomMargin);
+    p.textAlign(p.CENTER, p.TOP);
+    p.textSize(10);
+    p.stroke(0);
+    p.strokeWeight(1);
+
+    for (let i = 0.1; i <= 0.35; i += 0.05) {
+      let x = p.map(i, 0.1, 0.35, xStart, xStart + plotWidth);
+      p.line(x, p.height - bottomMargin, x, p.height - bottomMargin + 5); // tick
+      p.noStroke();
+      p.fill(0);
+      p.text((i * 100).toFixed(0) + "%", x, p.height - bottomMargin + 8); // label
+    }
+
+    // y-axis
+    p.stroke(0);
+    p.strokeWeight(1);
+    p.line(leftMargin, p.height - bottomMargin, leftMargin, topMargin);
+    p.textAlign(p.RIGHT, p.CENTER);
+    p.textSize(10);
+    p.stroke(0);
+    p.strokeWeight(1);
+
+    for (let i = 240; i <= 285; i += 5) {
+      let y = p.map(i, 240, 285, p.height - bottomMargin, topMargin);
+      p.line(leftMargin - 5, y, leftMargin, y); // tick
+      p.noStroke();
+      p.fill(0);
+      p.text(i, leftMargin - 10, y); // label
+    }
+
 
     // Axis labels
     p.textStyle(p.NORMAL);
@@ -120,7 +150,7 @@ registerSketch('sk5', function (p) {
     p.textAlign(p.CENTER);
     p.text("Population (%) below 150% of the poverty level", (p.width - leftMargin - rightMargin) / 2 + leftMargin, p.height - bottomMargin + 30);
     p.textAlign(p.RIGHT);
-    p.text("Average Literacy Score", leftMargin - 20, (p.height - bottomMargin + topMargin) / 2);
+    p.text("Average Literacy Score", leftMargin - 40, (p.height - bottomMargin + topMargin) / 2);
 
 
     // Convert New Hampshire data point to canvas coordinates
@@ -128,7 +158,7 @@ registerSketch('sk5', function (p) {
     let nhY = p.map(278.9, 240, 285, p.height - bottomMargin, topMargin) + 20;
 
     // Annotation text
-    let nhAnnotation = "New Hampshire shows one of the highest average literacy scores in the nation (279), and one of the lowest poverty rates, with only 14% of their poppulation falling below 150% of the povery line.";
+    let nhAnnotation = "New Hampshire shows one of the highest average literacy scores in the nation, and one of the lowest poverty rates.";
 
     // Position annotation slightly above and to the right
     let nhTextX = nhX + 20;

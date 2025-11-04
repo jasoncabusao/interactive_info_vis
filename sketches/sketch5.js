@@ -56,7 +56,7 @@ registerSketch('sk5', function (p) {
 
     // Title and subtitle
     let title = "States with Higher Poverty Tend to Have Lower Literacy — and the Gap Is Regional";
-    let subtitle = "States in the Southeast and Southwest show lower literacy than their poverty levels alone would predict, while New England maintains stronger outcomes.";
+    let subtitle = "Across the South, poverty and literacy move together, showing how interconnected economic hardship and educational access remain in the region.";
 
     // Title styling
     p.textAlign(p.CENTER, p.TOP);
@@ -68,9 +68,9 @@ registerSketch('sk5', function (p) {
 
     // Subtitle styling
     p.textStyle(p.SEMI_BOLD);
-    p.textSize(13);
+    p.textSize(14);
     p.textWrap(p.WORD);
-    p.text(subtitle, p.width / 4.5, 80, p.width / 2); // wrapped to fit nicely
+    p.text(subtitle, p.width / 5, 80, p.width / 2); // wrapped to fit nicely
 
 
     p.stroke(0);
@@ -140,12 +140,14 @@ registerSketch('sk5', function (p) {
     // New Hampshire data point
     let nhX = p.map(0.14, 0.1, 0.35, xStart, xStart + plotWidth) - 150;
     let nhY = p.map(278.9, 240, 285, p.height - bottomMargin, topMargin) + 20;
+    p.textStyle(p.ITALIC);
+    p.textSize(10);
     let nhAnnotation = "New Hampshire shows one of the highest average literacy scores in the nation, and one of the lowest poverty rates.";
     let nhTextX = nhX + 20;
     let nhTextY = nhY + 20;
     p.fill(0);
     p.noStroke();
-    p.textAlign(p.LEFT, p.TOP);
+    p.textAlign(p.CENTER, p.TOP);
     p.textWrap(p.WORD);
     p.text(nhAnnotation, nhTextX, nhTextY, 200);
     // NH Flag
@@ -162,9 +164,8 @@ registerSketch('sk5', function (p) {
 
     p.fill(0);
     p.noStroke();
-    p.textAlign(p.LEFT, p.TOP);
     p.textWrap(p.WORD);
-    p.text(msAnnotation, msTextX + 300, msTextY + 100, 200);
+    p.text(msAnnotation, msTextX + 300, msTextY + 100, 150);
     let msRadius = 10;
     let msDotCount = 15;
     // Dotted outline around Mississippi point
@@ -198,7 +199,8 @@ registerSketch('sk5', function (p) {
     p.line(nhX + 110, nhY - 43, nhX + 135, nhY - 60);
 
     // Annotation text
-    p.textStyle(p.BOLD);
+    p.textStyle(p.BOLDITALIC);
+    p.textSize(12);
     let annotation = "Southern states cluster together, showing consistently higher poverty and lower literacy levels compared to other regions.";
 
     // Position near the right side of the box
@@ -215,25 +217,26 @@ registerSketch('sk5', function (p) {
 
 
     p.textAlign(p.LEFT, p.TOP);
-    p.textSize(10);
+    p.textSize(8);
     p.fill(0);
     p.textWrap(p.WORD);
     p.text(
-      "Source: PIAAC (2012–2017) and American Community Survey. State-level estimates based on small area estimation models.\nData: 12,330 U.S. adults ages 16–74\nMethodology: nces.ed.gov/surveys/piaac",
-      p.width - 300,
-      80,
-      300
+      "Source: PIAAC (2012–2017) and American Community Survey. State-level estimates based on small area estimation models. Data: 12,330 U.S. adults ages 16–74 Methodology: nces.ed.gov/surveys/piaac",
+      p.width - 1250,
+      710,
+      1000
     );
 
 
     // Legend
+    p.textSize(12);
     let i = 0;
     for (let region in regionColors) {
       p.fill(regionColors[region]);
-      p.rect(p.width - 250, 250 + i * 20, 10, 10);
+      p.rect(p.width - 250, 125 + i * 20, 10, 10);
       p.fill(0);
       p.textAlign(p.LEFT);
-      p.text(region, p.width - 230, 250 + i * 20);
+      p.text(region, p.width - 230, 125 + i * 20);
       i++;
     }
 
